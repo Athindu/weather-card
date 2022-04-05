@@ -48,6 +48,7 @@ class WeatherData {
     city = "Matara";
     feels_like = 26.5;
     temp_min = 25.68;
+    temp_max = 27.3;
   }
 
 }
