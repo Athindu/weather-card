@@ -62,7 +62,7 @@ class _WelcomeState extends State<Welcome> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => HomeView(weatherData: weatherData,),
+                        builder: (context) => HomeView(),
                       ));
                 },
                 child: Text('TextButton'),

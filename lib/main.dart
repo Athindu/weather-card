@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_data/home_page.dart';
 import 'package:weather_data/onboard.dart';
 
 
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData.dark(),
       home: Scaffold(
-        body: Welcome(),
+        body: HomeView(),
       ),
     );
   }

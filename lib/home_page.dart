@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:weather_data/app_styles.dart';
 import 'package:weather_data/utils/forecast.dart';
+import 'package:weather_data/utils/location.dart';
 import "string_extension.dart";
 
 
 class HomeView extends StatefulWidget {
 
-  final WeatherData weatherData;
 
-  const HomeView({Key? key, required this.weatherData}) : super(key: key);
+  const HomeView({Key? key}) : super(key: key);
 
   @override
   State<HomeView> createState() => _HomeViewState();
@@ -17,12 +17,30 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
 
-  late int temperature;
-  late String city;
-  late double temp_min;
-  late double feels_like;
-  late String currentCondition;
-  late double temp_max;
+  late LocationHelper locationData;
+  late WeatherData weatherData;
+
+  Future<void> getLocationData() async {
+    locationData = LocationHelper();
+    await locationData.getCurrentLocation();
+
+    if (locationData.latitude == null || locationData.longitude == null) {
+      // todo: Handle no location
+      locationData.latitude = 6.011049;
+      locationData.longitude = 80.5027014;
+    }
+
+    print(locationData.longitude);
+    print(locationData.latitude);
+
+  }
+
+  int? temperature;
+  String? city;
+  double? temp_min;
+  double? feels_like;
+  String? currentCondition;
+  double? temp_max;
 
   void updateDisplayInfo(WeatherData weatherData) {
 
@@ -30,7 +48,7 @@ class _HomeViewState extends State<HomeView> {
       temperature = weatherData.currentTemperature.round();
       city = weatherData.city;
       temp_min = weatherData.temp_min;
-      temp_max = temp_min + 1.5;
+      temp_max = weatherData.temp_max;
       feels_like= weatherData.feels_like;
       currentCondition = weatherData.currentCondition.capitalize();
     });
@@ -41,7 +59,8 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    updateDisplayInfo(widget.weatherData);
+    internetCheck();
+    // updateDisplayInfo(widget.weatherData);
   }
 
   @override
@@ -166,6 +185,52 @@ class _HomeViewState extends State<HomeView> {
         ],
       ),
     );
+  }
+
+  void internetCheck() async {
+    bool result = await InternetConnectionChecker().hasConnection;
+    if(result == true) {
+      print('Internet available');
+      getWeatherData();
+    }
+    else {
+      print('No internet :( Reason:');
+      await getLocationData();
+      weatherData = WeatherData(locationData: locationData);
+      weatherData.getNormalWeather();
+
+      print(weatherData.currentTemperature);
+      print(weatherData.currentCondition);
+      print(weatherData.city);
+      print(weatherData.feels_like);
+      print(weatherData.temp_min);
+
+    }
+  }
+
+
+  void getWeatherData() async {
+    // Fetch the location
+
+    await getLocationData();
+    // Fetch the current weather
+    weatherData = WeatherData(locationData: locationData);
+    //print(weatherData.currentTemperature);
+    await weatherData.getCurrentTemperature();
+    if (weatherData.currentTemperature == null ||
+        weatherData.currentCondition == null || weatherData.city == null ||
+        weatherData.feels_like ==null || weatherData.temp_min ==null  ) {
+      // todo: Handle no weather
+    }
+
+    print(weatherData.currentTemperature);
+    print(weatherData.currentCondition);
+    print(weatherData.city);
+    print(weatherData.feels_like);
+    print(weatherData.temp_min);
+
+    updateDisplayInfo(weatherData);
+
   }
 
 
