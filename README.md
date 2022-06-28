@@ -1,16 +1,24 @@
-# weather_data
+# Weather App
 
-A new Flutter project.
+## Overview
+A cross-platform mobile application was developed using Flutter to get the real-time weather according to the user's current location. UI is created as a card view so that the developers can use this as a card view in their applications. The app includes current temperature, lowest possible temperature, highest possible temperature, weather status and weather icon.
+
+
+### Used Tools
+
+* Flutter
+* OpenWeatherMap
+* Android Studio
+
+## App View
+![My Image](view.JPG)
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
+For help getting started with Flutter, view
 [online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+samples, guidance on mobile development, and a full API reference. <br/><br/>
+
+
+## Author
+Athindu Umayanga : [@Athindu](https://github.com/Athindu)
